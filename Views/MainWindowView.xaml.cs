@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Security.Policy;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using WorldDatabase.ViewModels;
@@ -23,10 +20,8 @@ namespace WorldDatabase
 
         private void NewsArticleButton_Click(object sender, RoutedEventArgs e)
         {
-            Button? btn = sender as Button;
-            if(btn != null)
+            if (sender is Button btn)
             {
-                Debug.WriteLine("Link: " + btn?.ToolTip);
                 var psi = new ProcessStartInfo
                 {
                     FileName = btn?.ToolTip.ToString(),

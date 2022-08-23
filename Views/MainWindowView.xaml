@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ViewModel="clr-namespace:WorldDatabase.ViewModels"
         mc:Ignorable="d"
-        Title="World database" Height="540" Width="960">
+        Title="World database" 
+        Height="600" 
+        Width="570"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ViewModel:MainWindowViewModel x:Key="VM" />
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
     <Grid 
         x:Name="MainGrid"    
@@ -19,12 +21,12 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="200"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <StackPanel 
             x:Name="StackPanelGetCountry"    
@@ -38,45 +40,48 @@
                  Height="20"            
                  Width="250"/>
             <Button 
-                x:Name="ButtonShow"    
-                Command="{Binding ShowButtonClicked}"    
+                x:Name="SearchShow"    
+                Command="{Binding SearchButtonClicked}"    
                 Height="25"    
-                Width="120"   
+                Width="60"   
                 Margin="10,10,10,10"
-                Content="Show"/>
+                Content="Search"/>
         </StackPanel>
         <StackPanel
             Orientation="Vertical"
             Grid.Column="0" 
             Grid.Row="1">
-            <TextBlock FontWeight="Bold" FontSize="10" Foreground="Black" Background="LightBlue" Text= "Name" />
-            <TextBlock FontWeight="Bold" FontSize="10" Foreground="Black" Background="LightBlue" Text= "Alpha 2"/>
-            <TextBlock FontWeight="Bold" FontSize="10" Foreground="Black" Background="LightBlue" Text= "Alpha 3"/>
-            <TextBlock FontWeight="Bold" FontSize="10" Foreground="Black" Background="LightBlue" Text= "Emoji" />
-            <TextBlock FontWeight="Bold" FontSize="10" Foreground="Black" Background="LightBlue" Text= "IOC" />
-            <TextBlock FontWeight="Bold" FontSize="10" Foreground="Black" Background="LightBlue" Text= "Status" />
+            <Label x:Name="LabelCName" BorderThickness="1" BorderBrush="Black" FontWeight="Bold" FontSize="10" Foreground="Black" Background="LightBlue" Content= "Name" />
+            <Label x:Name="LabelCAlpha2" BorderThickness="1" BorderBrush="Black" FontWeight="Bold" FontSize="10" Foreground="Black" Background="LightBlue" Content= "Alpha 2"/>
+            <Label x:Name="LabelCAlpha3" BorderThickness="1" BorderBrush="Black" FontWeight="Bold" FontSize="10" Foreground="Black" Background="LightBlue" Content= "Alpha 3"/>
+            <Label x:Name="LabelCEmoji" BorderThickness="1" BorderBrush="Black" FontWeight="Bold" FontSize="10" Foreground="Black" Background="LightBlue" Content= "Emoji" />
+            <Label x:Name="LabelCIoc" BorderThickness="1" BorderBrush="Black" FontWeight="Bold" FontSize="10" Foreground="Black" Background="LightBlue" Content= "IOC" />
+            <Label x:Name="LabelCStatus" BorderThickness="1" BorderBrush="Black" FontWeight="Bold" FontSize="10" Foreground="Black" Background="LightBlue" Content= "Status" />
         </StackPanel>
         <StackPanel 
             Orientation="Vertical"
             Grid.Column="1" 
-            Grid.Row="1">
-            <TextBlock FontSize="10" Foreground="Black" Background="LightBlue" Text= "{Binding SelectedCountry.Name}" />
-            <TextBlock FontSize="10" Foreground="Black" Background="LightBlue" Text= "{Binding SelectedCountry.Alpha2}"/>
-            <TextBlock FontSize="10" Foreground="Black" Background="LightBlue" Text= "{Binding SelectedCountry.Alpha3}"/>
-            <TextBlock FontSize="10" Foreground="Black" Background="LightBlue" Text= "{Binding SelectedCountry.Emoji}" />
-            <TextBlock FontSize="10" Foreground="Black" Background="LightBlue" Text= "{Binding SelectedCountry.Ioc}" />
-            <TextBlock FontSize="10" Foreground="Black" Background="LightBlue" Text= "{Binding SelectedCountry.Status}" />
+            Grid.Row="1"
+            Width="Auto"
+            Margin="10,0,0,0">
+            <TextBlock Width="Auto" FontSize="10" Foreground="Black" Text= "{Binding SelectedCountry.Name}" Height="{Binding ActualHeight, ElementName=LabelCName, Mode=OneWay}" />
+            <TextBlock Width="Auto" FontSize="10" Foreground="Black" Text= "{Binding SelectedCountry.Alpha2}" Height="{Binding ActualHeight, ElementName=LabelCAlpha2, Mode=OneWay}"/>
+            <TextBlock Width="Auto" FontSize="10" Foreground="Black" Text= "{Binding SelectedCountry.Alpha3}" Height="{Binding ActualHeight, ElementName=LabelCAlpha3, Mode=OneWay}"/>
+            <TextBlock Width="Auto" FontSize="10" Foreground="Black" Text= "{Binding SelectedCountry.Emoji}" Height="{Binding ActualHeight, ElementName=LabelCEmoji, Mode=OneWay}"/>
+            <TextBlock Width="Auto" FontSize="10" Foreground="Black" Text= "{Binding SelectedCountry.Ioc}" Height="{Binding ActualHeight, ElementName=LabelCIoc, Mode=OneWay}"/>
+            <TextBlock Width="Auto" FontSize="10" Foreground="Black" Text= "{Binding SelectedCountry.Status}" Height="{Binding ActualHeight, ElementName=LabelCStatus, Mode=OneWay}"/>
         </StackPanel>
         <StackPanel
+            x:Name="StackPanelLabels"
             Orientation="Horizontal"
             HorizontalAlignment="Center"
             Grid.Column="1" 
             Grid.Row="2"
             Background="LightBlue"
-            Margin="0 10 0 0">
-            <TextBlock FontWeight="Bold" Margin="10 0 0 0" FontSize="10" Foreground="Black" Text= "Languages" />
-            <TextBlock FontWeight="Bold" Margin="10 0 0 0" FontSize="10" Foreground="Black" Text= "Currencies"/>
-            <TextBlock FontWeight="Bold" Margin="10 0 0 0" FontSize="10" Foreground="Black" Text= "Country Calling Codes"/>
+            Margin="50,10,50,5">
+            <Label x:Name="LabelCLanguages" Width="Auto" BorderThickness="1" BorderBrush="Black" FontWeight="Bold" Margin="0 0 5 0" FontSize="10" Foreground="Black" Content="Languages" />
+            <Label x:Name="LabelCCurrencies" Width="Auto" BorderThickness="1" BorderBrush="Black" FontWeight="Bold" Margin="5 0 5 0" FontSize="10" Foreground="Black" Content="Currencies"/>
+            <Label x:Name="LabelCCCC" Width="Auto" BorderThickness="1" BorderBrush="Black" FontWeight="Bold" Margin="5 0 0 0" FontSize="10" Foreground="Black" Content="Country calling codes"/>
         </StackPanel>
         <StackPanel 
             Orientation="Horizontal"
@@ -84,29 +89,35 @@
             Grid.Column="1" 
             Grid.Row="3"
             Background="White"
-            Margin="0 5 0 0">
+            Width="{Binding ActualWidth, ElementName=StackPanelLabels, Mode=OneWay}">
             <ScrollViewer 
+                BorderThickness="1" 
+                BorderBrush="Black"
                 HorizontalScrollBarVisibility="Auto"
                 VerticalScrollBarVisibility="Auto"
                 Height="50"
-                Width="Auto"
-                MinWidth="78">
+                Width="{Binding ActualWidth, ElementName=LabelCLanguages, Mode=OneWay}"
+                Margin="0 0 5 0">
                 <ItemsControl ItemsSource="{Binding SelectedCountry.Languages}" />
             </ScrollViewer>
             <ScrollViewer 
+                BorderThickness="1" 
+                BorderBrush="Black"
                 HorizontalScrollBarVisibility="Auto"
                 VerticalScrollBarVisibility="Auto"
                 Height="50"
-                Width="Auto"
-                MinWidth="78">
+                Width="{Binding ActualWidth, ElementName=LabelCCurrencies, Mode=OneWay}"
+                Margin="5 0 5 0">
                 <ItemsControl ItemsSource="{Binding SelectedCountry.Currencies}" />
             </ScrollViewer>
             <ScrollViewer 
+                BorderThickness="1" 
+                BorderBrush="Black"
                 HorizontalScrollBarVisibility="Auto"
                 VerticalScrollBarVisibility="Auto"
                 Height="50"
-                Width="Auto"
-                MinWidth="78">
+                Width="{Binding ActualWidth, ElementName=LabelCCCC, Mode=OneWay}"
+                Margin="5 0 0 0">
                 <ItemsControl ItemsSource="{Binding SelectedCountry.CountryCallingCodes}" />
             </ScrollViewer>
         </StackPanel>
@@ -115,18 +126,20 @@
             HorizontalAlignment="Center"
             Grid.Column="1" 
             Grid.Row="4"
-            Background="White">
+            Background="White"
+            Margin="0 5 0 0"
+            Height="Auto">
             <ScrollViewer 
+                x:Name="ScrollViewNews"
                 HorizontalScrollBarVisibility="Auto"
                 VerticalScrollBarVisibility="Auto"
-                Height="190"
-                Width="500"
-                Margin="0 5 0 0">
+                Height="200"
+                Width="500">
                 <ItemsControl 
                     ItemsSource="{Binding NewsArticles}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Columns="1" Height="500" />
+                            <UniformGrid Columns="1" Height="Auto" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
@@ -134,24 +147,27 @@
                             <Button
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
-                                Width="500"
+                                Width="{Binding ActualWidth, ElementName=ScrollViewNews, Mode=OneWay}"
                                 Height="Auto"
                                 Name="NewsArticleButton"
-                                Margin="0,0,0,5"
                                 Background="White"
                                 BorderThickness="0"
                                 ClickMode="Press"
                                 ToolTip="{Binding Web_url}"
                                 Click="NewsArticleButton_Click">
                                 <StackPanel
-                                    Width="500"
+                                    Width="{Binding ActualWidth, ElementName=ScrollViewNews, Mode=OneWay}"
                                     Height="Auto"
                                     Orientation="Horizontal"
                                     VerticalAlignment="Top">
-                                    <Image VerticalAlignment="Top" Height="50" MinWidth="100" Source="{Binding Multimedia[0].Url}"/>
+                                    <Image 
+                                        VerticalAlignment="Top" 
+                                        Height="100" 
+                                        Width="100" 
+                                        Source="{Binding Multimedia[0].Url}"/>
                                     <TextBlock 
                                         VerticalAlignment="Top"
-                                        MaxWidth="400"
+                                        MaxWidth="350"
                                         TextWrapping="Wrap"
                                         Height="Auto" 
                                         LineHeight="20" 
@@ -160,7 +176,8 @@
                                         Foreground="Black" 
                                         Background="White" 
                                         Text= "{Binding Abstract}" 
-                                        FontWeight="Bold" />
+                                        FontWeight="Bold" 
+                                        Margin="5,0,10,0" />
                                 </StackPanel>
                             </Button>
                         </DataTemplate>

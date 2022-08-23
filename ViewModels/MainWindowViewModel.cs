@@ -3,7 +3,6 @@ using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using WorldDatabase.Models;
@@ -62,7 +61,7 @@ namespace WorldDatabase.ViewModels
             set { SetProperty(ref _selectedCountryName, value); }
         }
 
-        public DelegateCommand ShowButtonClicked { get; set; }
+        public DelegateCommand SearchButtonClicked{ get; set; }
 
         public new event PropertyChangedEventHandler? PropertyChanged;
 
@@ -74,10 +73,12 @@ namespace WorldDatabase.ViewModels
         public MainWindowViewModel()
         {
             GetCountryDetails();
-            ShowButtonClicked = new DelegateCommand(ShowCountryInformation);
-            //NewsArticleButton.Click += (s, e) => { NewsArticleClicked(s, e); };
+            SearchButtonClicked = new DelegateCommand(ShowCountryInformation);
         }
 
+        /*
+         Shows single country information and gets the new related to that country based on user input.
+         */
         private void ShowCountryInformation()
         {
             foreach (Country country in Countries)
@@ -85,12 +86,14 @@ namespace WorldDatabase.ViewModels
                 if (country.Name == SelectedCountryName)
                 {
                     SelectedCountry = country;
-                    Debug.WriteLine("Selected country: " + SelectedCountry.Name);
                     GetCountryNews();
                 }
             }
         }
 
+        /*
+         Gets all the worlds countries basic information as a JSON and turn it to string. Then that string representation is converted to Country object list.
+         */
         private async void GetCountryDetails()
         {
             HttpResponseMessage countryDetails = await WebAPI.GetCall("https://raw.githubusercontent.com/OpenBookPrices/country-data/master/data/countries.json");
@@ -112,18 +115,16 @@ namespace WorldDatabase.ViewModels
          */
         private async void GetCountryNews()
         {
-            HttpResponseMessage countryNews = await WebAPI.GetCall("https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + SelectedCountry.Name + "&api-key=" + APIKeys.NYTimesAPIKey);
+            
+            HttpResponseMessage countryNews = await WebAPI.GetCall($"https://api.nytimes.com/svc/search/v2/articlesearch.json?q={SelectedCountry.Name}&api-key={APIKeys.NYTimesAPIKey}");
             if(countryNews.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 string result = await countryNews.Content.ReadAsStringAsync();
                 if (result is not null)
                 {
-                    string trimmedRes = result.Substring(result.IndexOf("abstract") - 3);
+                    string trimmedRes = result[(result.IndexOf("abstract") - 3)..];
                     string finalRes = trimmedRes.Remove(trimmedRes.IndexOf(",\"meta\":"));
-                    Debug.WriteLine(finalRes);
                     NewsArticles = JsonConvert.DeserializeObject<List<NewsArticle>>(finalRes) ?? new List<NewsArticle>();
-                    Debug.WriteLine("News article count: " + NewsArticles.Count);
-                    Debug.WriteLine("First news article: " + NewsArticles[0].Abstract);
                 }
             }
         }
